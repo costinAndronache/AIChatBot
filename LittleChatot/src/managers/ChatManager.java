@@ -18,21 +18,10 @@ public class ChatManager {
     PersonProvider pm;
     QuestionProvider qm;
     Scanner sc;
-    public ChatManager() throws Exception
+    public ChatManager(QuestionProvider qp, PersonProvider pp) throws Exception
     {
-        
-        FileReader persReader = new FileReader(new File("persoane.txt"));
-        BufferedReader persBR = new BufferedReader(persReader);
-        
-        pm = new PersonManager(persBR);
-        
-        FileReader qsReader = new FileReader(new File("persoane.txt"));
-        BufferedReader qsBR = new BufferedReader(persReader);
-        
-        qm = new QuestionManager(qsBR);
-        
-        //Mai sus inlocuiesti cu clasele tale care se conforma interfetelor
-        
+        this.pm = pp;
+        this.qm = qp;        
     }
     
     
