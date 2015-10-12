@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main;
+package askingChatbot.main;
+import askingChatbot.managers.PersonManager;
+import askingChatbot.managers.ChatManager;
+import askingChatbot.managers.QuestionManager;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import managers.*;
 
 /**
  *

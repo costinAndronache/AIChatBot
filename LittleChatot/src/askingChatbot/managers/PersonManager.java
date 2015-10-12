@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package managers;
+package askingChatbot.managers;
 
-import interfaces.PersonProvider;
+import askingChatbot.interfaces.PersonProvider;
 import java.io.*;
 import java.util.*;
 import models.Person;
