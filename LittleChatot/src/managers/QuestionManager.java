@@ -5,6 +5,7 @@
  */
 package managers;
 
+import interfaces.QuestionProvider;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -15,15 +16,17 @@ import models.Question;
  *
  * @author Costi
  */
-public class QuestionManager {
+public class QuestionManager implements QuestionProvider {
     
     private Map<Integer,List<Question>> _questions;
     
-    public int getRandomCategory()
+    @Override
+    public int getRandomCategoryWithIgnoreList(List<Integer> ignoredCategories)
     {
         return 2;
     }
     
+    @Override
     public Question randomQuestionFromCategory(int category)
     {
         List<Question> ls = this.questionListForCategory(category);
@@ -67,8 +70,4 @@ public class QuestionManager {
     }
     
     
-    private int getNumOfCategories()
-    {
-       
-    }
 }

@@ -7,6 +7,7 @@ package managers;
 import models.*;
 import java.util.*;
 import java.io.*;
+import interfaces.*;
 
 /**
  *
@@ -14,8 +15,8 @@ import java.io.*;
  */
 public class ChatManager {
     
-    PersonManager pm;
-    QuestionManager qm;
+    PersonProvider pm;
+    QuestionProvider qm;
     Scanner sc;
     public ChatManager() throws Exception
     {
@@ -29,6 +30,8 @@ public class ChatManager {
         BufferedReader qsBR = new BufferedReader(persReader);
         
         qm = new QuestionManager(qsBR);
+        
+        //Mai sus inlocuiesti cu clasele tale care se conforma interfetelor
         
     }
     

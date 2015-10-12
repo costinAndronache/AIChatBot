@@ -5,6 +5,7 @@
  */
 package managers;
 
+import interfaces.PersonProvider;
 import java.io.*;
 import java.util.*;
 import models.Person;
@@ -13,15 +14,17 @@ import models.Person;
  *
  * @author Costi
  */
-public class PersonManager 
+public class PersonManager implements PersonProvider 
 {
     Map<String, Person> _personsByName;
     
+    @Override
     public Person getPersonWithName(String name)
     {
         return _personsByName.get(name);
     }
     
+    @Override
     public void addPerson(Person p)
     {
         _personsByName.put(p.getName(), p);
