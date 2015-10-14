@@ -6,8 +6,11 @@
 package askingChatbot.managers;
 
 import askingChatbot.interfaces.PersonProvider;
+
 import java.io.*;
 import java.util.*;
+
+import dataBase.DataBase;
 import models.Person;
 
 /**
@@ -17,6 +20,8 @@ import models.Person;
 public class PersonManager implements PersonProvider 
 {
     Map<String, Person> _personsByName;
+    DataBase db = DataBase.getInstance();
+    
     
     @Override
     public Person getPersonWithName(String name)
@@ -30,6 +35,7 @@ public class PersonManager implements PersonProvider
         _personsByName.put(p.getName(), p);
     }
     
+    
     public PersonManager(BufferedReader reader) throws IOException
     {
         String numOfPersonsString = reader.readLine();
@@ -40,6 +46,17 @@ public class PersonManager implements PersonProvider
         {
             Person p = Person.createPersonFromReader(reader);
             _personsByName.put(p.getName(), p);
+        }
+    }
+    
+    public PersonManager(Person[] p) throws IOException
+    {
+        int numOfPersons = p.length;
+        
+        _personsByName = new HashMap<>();
+        for(int i=1; i<=numOfPersons;i++)
+        {
+            _personsByName.put(p[i].getName(), p[i]);
         }
     }
     

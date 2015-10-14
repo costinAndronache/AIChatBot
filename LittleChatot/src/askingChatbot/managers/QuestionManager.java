@@ -6,10 +6,15 @@
 package askingChatbot.managers;
 
 import askingChatbot.interfaces.QuestionProvider;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.sql.SQLException;
 import java.util.*;
+
+import dataBase.DataBase;
+import models.Person;
 import models.Question;
 
 /**
@@ -37,6 +42,40 @@ public class QuestionManager implements QuestionProvider {
         return null;
     }
     
+    public Question randomQuestionByType(Person p, String type)
+    {
+    	int random = (int )(Math.random() * 50 + 1);
+		return null;
+    }
+    
+    public Question randomQuestion(Person p)
+    {
+    	DataBase db = DataBase.getInstance();
+    	int maxim = 0;
+    	try {
+			maxim = db.maxNrQuestions();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	for (int i=0; i<=1000; i++) {
+    		int random = (int )(Math.random() * maxim + 1);
+    		if (!p.hasAnsweredQuestionGroup(random)) 
+    		{
+    			p.addAnsweredGroup(random);
+    			
+    		}
+    	}
+    	
+		return null;
+    }
+    
+    public QuestionManager() throws IOException
+    {
+        
+    }
+    
     public QuestionManager(BufferedReader reader) throws IOException
     {
         _questions = new HashMap<>();
@@ -50,10 +89,9 @@ public class QuestionManager implements QuestionProvider {
             int questionGroupNum = Integer.parseInt(questionGroupString);
             
             List<Question> ls = this.questionListForCategory(questionGroupNum);
-            Question newq = new Question(questionGroupNum,questionString);
+            Question newq = new Question(questionGroupNum,questionString,"");
             ls.add(newq);
         }
-        
     }
     
     private List<Question> questionListForCategory(int category)

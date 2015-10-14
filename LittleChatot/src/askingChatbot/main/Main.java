@@ -7,9 +7,13 @@ package askingChatbot.main;
 import askingChatbot.managers.PersonManager;
 import askingChatbot.managers.ChatManager;
 import askingChatbot.managers.QuestionManager;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.sql.SQLException;
+
+import dataBase.DataBase;
 
 /**
  *
@@ -19,6 +23,14 @@ public class Main
 {
     public static void main(String[] args) throws Exception
     {
+    	DataBase db = DataBase.getInstance();
+    	try {
+    		db.connectDataBase();
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+    	
+    	/*
         FileReader persReader = new FileReader(new File("persoane.txt"));
         BufferedReader persBR = new BufferedReader(persReader);
         
@@ -28,6 +40,8 @@ public class Main
         BufferedReader qsBR = new BufferedReader(persReader);
         
         QuestionManager qm = new QuestionManager(qsBR);
+        
+        */
         
         ChatManager cm = new ChatManager(qm, pm);
         cm.startChat();

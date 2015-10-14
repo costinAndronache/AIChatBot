@@ -13,8 +13,9 @@ public class Question {
     
     private String _questionString;
     private int _category;
+    private String _type;
     
-    public Question(int category, String questionString)
+    public Question(int category, String questionString, String _type)
     {
         _category = category;
         _questionString = questionString;
@@ -28,6 +29,11 @@ public class Question {
     public int getCategory()
     {
         return _category;
+    }
+    
+    public String getType()
+    {
+        return _type;
     }
     
 }
