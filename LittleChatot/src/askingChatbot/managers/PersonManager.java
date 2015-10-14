@@ -36,6 +36,11 @@ public class PersonManager implements PersonProvider
     }
     
     
+    public PersonManager() throws IOException
+    {
+    	
+    }
+    
     public PersonManager(BufferedReader reader) throws IOException
     {
         String numOfPersonsString = reader.readLine();

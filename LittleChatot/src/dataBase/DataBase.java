@@ -106,6 +106,22 @@ public class DataBase {
         }
 	}
 	
+	public void addQuestionAsked(String name, int queid) throws SQLException {
+		String sql = "INSERT INTO QuestionsAsked VALUES ('"+name+"',"+queid+")";
+	    Connection conn = null;
+	    Statement stmt = null;
+	    try {
+	    	conn = DataBase.getConnection();
+		    stmt = conn.createStatement();
+			stmt.execute(sql);
+			
+			stmt.close();
+	    } catch (SQLException eroare) {
+            System.out.println("Error on adding new asked question");
+            eroare.printStackTrace();
+        }
+	}
+	
 	/*========================================= UPDATE-uri =========================================*/
 	
 	public void setAgePersoana(String name, int age) throws SQLException {
@@ -212,6 +228,33 @@ public class DataBase {
 	        }
 	    }
 		
+		public String[] viewQuestionsVersion(int group) throws SQLException {
+	        String sql = "SELECT * FROM QuestionsVersion WHERE QUEID = "+group;
+	        Connection conn = null;
+	        Statement stmt = null;
+	        ResultSet rs = null;
+	        try {
+	            conn = DataBase.getConnection();
+	            stmt = conn.createStatement();
+	            rs = stmt.executeQuery(sql);
+	            int n = 0;
+	            String[] valori = new String[255];
+	            while (rs.next()) {
+	            	valori[n] = rs.getString(3);
+	            	n++;
+	            	//System.out.println("Dificultate: " + valori[n-1]);
+	            }
+	            rs.close();
+	            stmt.close();
+	            return valori;
+	            
+	        } catch (SQLException eroare) {
+	            System.out.println("Error on view QuestionsVersion");
+	            eroare.printStackTrace();
+	            return null;
+	        }
+	    }
+		
 		public ResultSet viewQuestionsAsked()
 	            throws SQLException {
 	        String sql = "SELECT * FROM QuestionsAsked";
@@ -234,6 +277,28 @@ public class DataBase {
 	        }
 	    }
 		
+		public ResultSet viewQuestionsByType(String type)
+	            throws SQLException {
+	        String sql = "SELECT * FROM Questions WHERE TYPE = '"+type+"'";
+	        Connection conn = null;
+	        Statement stmt = null;
+	        ResultSet rs = null;
+	        try {
+	            conn = DataBase.getConnection();
+	            stmt = conn.createStatement();
+	            rs = stmt.executeQuery(sql);
+	         
+	            rs.close();
+	            stmt.close();
+	            return rs;
+	            
+	        } catch (SQLException eroare) {
+	            System.out.println("Error on view Questions by type");
+	            eroare.printStackTrace();
+	            return null;
+	        }
+	    }
+		
 		public int maxNrQuestions() throws SQLException {
 	        String sql = "SELECT MAX(QUEID) FROM Questions";
 	        Connection conn = null;
@@ -251,6 +316,28 @@ public class DataBase {
 	            
 	        } catch (SQLException eroare) {
 	            System.out.println("Error on calculate maxim of questions");
+	            eroare.printStackTrace();
+	            return 0;
+	        }
+	    }
+		
+		public int maxNrQuestionsByType(String type) throws SQLException {
+	        String sql = "SELECT * FROM Questions WHERE TIPNAME = '"+type+"'";
+	        Connection conn = null;
+	        stmt = null;
+	        result = null;
+	        try {
+	            conn = DataBase.getConnection();
+	            stmt = conn.createStatement();
+	            result = stmt.executeQuery(sql);
+	            int max=0;
+	            while (result.next())
+	            	max++;
+	            
+	            return max;
+	            
+	        } catch (SQLException eroare) {
+	            System.out.println("Error on calculate maxim of questions by type");
 	            eroare.printStackTrace();
 	            return 0;
 	        }

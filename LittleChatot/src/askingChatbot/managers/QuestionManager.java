@@ -10,6 +10,7 @@ import askingChatbot.interfaces.QuestionProvider;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -44,9 +45,63 @@ public class QuestionManager implements QuestionProvider {
     
     public Question randomQuestionByType(Person p, String type)
     {
-    	int random = (int )(Math.random() * 50 + 1);
+    	DataBase db = DataBase.getInstance();
+    	int maxim = 0;
+    	try {
+			maxim = db.maxNrQuestionsByType(type);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    	for (int i=0; i<=1000; i++) {
+    		int aux = (int )(Math.random() * maxim + 1);
+    		int group = 0;
+    		try {
+    			ResultSet rs = db.viewQuestionsByType(type);
+				int n=1;
+				while (rs.next()) {
+		        	group = rs.getInt(1);
+		        	if (n==aux) break;
+		        	n++;
+		        }
+				
+				rs.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+    		
+    		if (!p.hasAnsweredQuestionGroup(group)) 
+    		{
+    			String[] intrebari = new String[255];
+    			
+    			try {
+					intrebari = db.viewQuestionsVersion(group);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    			
+    			int nrQuestion = (int)(Math.random() * intrebari.length + 1);
+    			
+    			
+    			try {
+					db.addQuestionAsked(p.getName(),group);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    			p.addAskedGroup(group);
+    			Question q = new Question(group,intrebari[nrQuestion],"");
+    			return q;
+    		}
+    	}
+    	
 		return null;
     }
+    
     
     public Question randomQuestion(Person p)
     {
@@ -60,11 +115,30 @@ public class QuestionManager implements QuestionProvider {
 		}
     	
     	for (int i=0; i<=1000; i++) {
-    		int random = (int )(Math.random() * maxim + 1);
-    		if (!p.hasAnsweredQuestionGroup(random)) 
+    		int group = (int )(Math.random() * maxim + 1);
+    		if (!p.hasAnsweredQuestionGroup(group)) 
     		{
-    			p.addAnsweredGroup(random);
+    			String[] intrebari = new String[255];
     			
+    			try {
+					intrebari = db.viewQuestionsVersion(group);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    			
+    			int nrQuestion = (int)(Math.random() * intrebari.length + 1);
+    			
+    			
+    			try {
+					db.addQuestionAsked(p.getName(),group);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    			p.addAskedGroup(group);
+    			Question q = new Question(group,intrebari[nrQuestion],"");
+    			return q;
     		}
     	}
     	

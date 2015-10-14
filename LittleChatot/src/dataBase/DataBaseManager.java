@@ -23,6 +23,7 @@ public class DataBaseManager {
             	
             	//System.out.println("Dificultate: " + valori[n-1]);
             }
+            rs.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -39,7 +40,7 @@ public class DataBaseManager {
 			
 			List<Integer> answeredQuestions = new ArrayList<>();
 			
-			while (rs.next()) {
+			while (rsQA.next()) {
 	        	if (name.equals(rsQA.getString(1).trim()))
 	        		answeredQuestions.add(rsQA.getInt(2));
 	        }
@@ -52,6 +53,8 @@ public class DataBaseManager {
 	        	}
 
 	        }
+	        rs.close();
+	        rsQA.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

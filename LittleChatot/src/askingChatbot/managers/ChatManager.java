@@ -16,15 +16,21 @@ import java.io.*;
  */
 public class ChatManager {
     
-    PersonProvider pm;
-    QuestionProvider qm;
+    PersonProvider pp;
+    QuestionProvider qp;
+    PersonManager pm;
+    QuestionManager qm;
     Scanner sc;
     public ChatManager(QuestionProvider qp, PersonProvider pp) throws Exception
     {
-        this.pm = pp;
-        this.qm = qp;        
+        this.pp = pp;
+        this.qp = qp;        
     }
-    
+    public ChatManager(QuestionManager qm, PersonManager pm) throws Exception
+    {
+    	 this.pm = pm;
+         this.qm = qm; 
+    }
     
     public void startChat()
     {
@@ -48,6 +54,7 @@ public class ChatManager {
            
        }
     }
+      
     
     public Person askAndCreateAPersonWithName(String name)
     {

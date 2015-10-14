@@ -43,7 +43,7 @@ public class Person {
         return _answeredQuestions.contains(questionGroup);
     }
     
-    public void addAnsweredGroup(int group)
+    public void addAskedGroup(int group)
     {
         _answeredQuestions.add(group);
     }
