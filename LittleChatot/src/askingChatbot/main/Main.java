@@ -4,9 +4,8 @@
  * and open the template in the editor.
  */
 package askingChatbot.main;
-import askingChatbot.managers.PersonManager;
-import askingChatbot.managers.ChatManager;
-import askingChatbot.managers.QuestionManager;
+import askingChatbot.managers.*;
+import askingChatbot.managers.simpleManagers.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,9 +21,22 @@ import dataBase.DataBase;
  */
 public class Main 
 {
-    public static void main(String[] args) 
+    
+    
+    public static void startTheSimpleChat() throws Exception
     {
-    	DataBase db = DataBase.getInstance();
+                         ChatManager cm;
+                        SimpleQuestionManager sqm = new SimpleQuestionManager();
+                        SimplePersonManager spm = new SimplePersonManager();
+                        SimpleQuestionProposer sqp = new SimpleQuestionProposer(sqm);
+                        
+			cm = new ChatManager(sqm, spm, sqp);
+			cm.startChat();
+    }
+    
+    public static void startFullChat() throws Exception
+    {
+        DataBase db = DataBase.getInstance();
     	try {
     		db.connectDataBase();
     	} catch (SQLException e) {
@@ -57,10 +69,9 @@ public class Main
         
         
         
-        ChatManager cm;
+        
 		try {
-			cm = new ChatManager(qm, pm);
-			cm.startChat();
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -71,5 +82,11 @@ public class Main
     	} catch (SQLException e) {
     		e.printStackTrace();
     	}
+    }
+    
+    
+    public static void main(String[] args) throws Exception
+    {
+        startTheSimpleChat();
     }
 }
