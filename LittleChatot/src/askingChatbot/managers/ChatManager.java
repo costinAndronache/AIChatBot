@@ -6,6 +6,8 @@
 package askingChatbot.managers;
 import askingChatbot.interfaces.QuestionProvider;
 import askingChatbot.interfaces.PersonProvider;
+import com.sun.jmx.snmp.daemon.SnmpInformRequest;
+import com.sun.org.apache.bcel.internal.generic.StackInstruction;
 import models.*;
 import java.util.*;
 import java.io.*;
@@ -34,9 +36,10 @@ public class ChatManager {
     
     public void startChat()
     {
-      sc = new Scanner(System.in);
-       
-       System.out.println("What's your name?");
+       sc = new Scanner(System.in);
+       String nameQuestionString = this.qm.randomQuestionFromCategory(
+               GlobalQuestionGroupIDs.QUESTION_GROUP_ASK_FOR_NAME).getQuestion();
+       System.out.println(nameQuestionString);
        String pName = sc.nextLine();
        Person p  = pm.getPersonWithName(pName);
            
@@ -58,14 +61,18 @@ public class ChatManager {
     
     public Person askAndCreateAPersonWithName(String name)
     {
-        System.out.println("What's your age?");
+        String ageQuestion = this.qm.randomQuestionFromCategory(
+                GlobalQuestionGroupIDs.QUESTION_GROUP_ASK_FOR_AGE).getQuestion();
+        System.out.println(ageQuestion);
+        
         int age = sc.nextInt();
-        System.out.println("What do you do?");
+        String jobQuestion = this.qm.randomQuestionFromCategory(
+                GlobalQuestionGroupIDs.QUESTION_GROUP_ASK_FOR_JOB).getQuestion();
+        System.out.println(jobQuestion);
         String job = sc.nextLine();
         
         List<Integer> newList = new ArrayList<>();
         Person p = new Person(name, newList,age,job);
-        
         pm.addPerson(p);
         
         return p;
