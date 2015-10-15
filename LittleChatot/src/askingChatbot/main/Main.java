@@ -25,13 +25,24 @@ public class Main
     
     public static void startTheSimpleChat() throws Exception
     {
-                         ChatManager cm;
-                        SimpleQuestionManager sqm = new SimpleQuestionManager();
-                        SimplePersonManager spm = new SimplePersonManager();
-                        SimpleQuestionProposer sqp = new SimpleQuestionProposer(sqm);
-                        
-			cm = new ChatManager(sqm, spm, sqp);
-			cm.startChat();
+
+      SimpleQuestionManager sqm = new SimpleQuestionManager();
+      SimplePersonManager spm = new SimplePersonManager();
+      SimpleQuestionProposer sqp = new SimpleQuestionProposer(sqm);
+      SimpleAnswerKB sakb = getAKB();
+ 
+      ChatManager cm = new ChatManager(sqm, spm, sqp, sakb);
+      cm.startChat();
+    }
+    
+    public static SimpleAnswerKB getAKB() throws Exception
+    {
+        SimpleAnswerKB sakb = new SimpleAnswerKB();
+        File file = new File("QA.txt");
+        FileReader fr = new FileReader(file);
+        BufferedReader br = new BufferedReader(fr);
+        sakb.readFromBuffer(br);
+        return sakb;
     }
     
     public static void startFullChat() throws Exception

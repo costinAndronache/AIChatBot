@@ -20,14 +20,17 @@ public class ChatManager {
     QuestionProposer _questionProposer;
     PersonProvider pp;
     QuestionProvider qp;
+    AnswerQuestionKnowledgeBase aqkb;
     Scanner sc;
     
     private boolean  _chatDone;
-    public ChatManager(QuestionProvider qp, PersonProvider pp, QuestionProposer questionProposer) 
+    public ChatManager(QuestionProvider qp, PersonProvider pp, 
+            QuestionProposer questionProposer, AnswerQuestionKnowledgeBase aqkb) 
             throws Exception
     {
         this.pp = pp;
-        this.qp = qp;        
+        this.qp = qp;     
+        this.aqkb = aqkb;
         _questionProposer = questionProposer;
     }
     public ChatManager(QuestionManager qm, PersonManager pm) throws Exception
@@ -79,6 +82,7 @@ public class ChatManager {
         String jobQuestion = this.qp.randomQuestionFromCategory(
                 GlobalQuestionGroupIDs.QUESTION_GROUP_ASK_FOR_JOB).getQuestion();
         System.out.println(jobQuestion);
+        sc.nextLine();
         String job = sc.nextLine();
         
         List<Integer> newList = new ArrayList<>();
@@ -106,6 +110,7 @@ public class ChatManager {
             return;
         }
         
+        person.addAskedGroup(aQuestionGroupId);
         System.out.println(aQuestion.getQuestion());
         String answer = this.sc.nextLine();
     }
@@ -121,7 +126,20 @@ public class ChatManager {
             return;
         }
         
-        System.out.println("I currently cannot answer that n__n\"");
+        String answer = this.aqkb.answerForQuestion(userQuestion);
+        if (answer == null) 
+        {
+            System.out.println("I currently cannot answer that n__n\"."
+                    + " Would you like to share the answer?: ");
+            
+            String userAnswer = sc.nextLine();
+            this.aqkb.recordAnswerForQuestion(userAnswer, userQuestion);
+            
+            System.out.println("Thankies!\n");
+            return;
+        }
+        
+        System.out.println(answer);
     }
     
     private void presentDoNotKnowMessage()
