@@ -6,19 +6,28 @@
 package askingChatbot.managers.simpleManagers;
 
 import askingChatbot.interfaces.*;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
+import java.io.Serializable;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import models.*;
+
+import org.json.*;
+
 /**
  *
  * @author Costi
  */
-public class SimpleQuestionManager implements QuestionProvider{
+public class SimpleQuestionManager implements QuestionProvider, Serializable{
 
     private Map<Integer, List<String>> questionMap;
     
     public SimpleQuestionManager()
     {
-        this.setDummyData();
+        
     }
     
     
@@ -45,9 +54,20 @@ public class SimpleQuestionManager implements QuestionProvider{
     @Override
     public int getRandomCategoryWithIgnoreList(List<Integer> ignoredCategories)
     {
-        int[] ids = {GlobalQuestionGroupIDs.QUESTION_GROUP_ASK_FOR_AGE,
-                     GlobalQuestionGroupIDs.QUESTION_GROUP_ASK_FOR_JOB,
-                     GlobalQuestionGroupIDs.QUESTION_GROUP_ASK_FOR_NAME};
+        
+        List<Integer> ids = new ArrayList<>();
+        for(int i : questionMap.keySet())
+        {
+            if (i == GlobalQuestionGroupIDs.QUESTION_GROUP_ASK_FOR_AGE || 
+                i == GlobalQuestionGroupIDs.QUESTION_GROUP_ASK_FOR_JOB ||
+                i == GlobalQuestionGroupIDs.QUESTION_GROUP_ASK_FOR_NAME)
+            {
+                
+            }
+            else
+                ids.add(i);
+        }
+
                      
         Random r = new Random();
         int actualRand = r.nextInt();
@@ -56,9 +76,9 @@ public class SimpleQuestionManager implements QuestionProvider{
             actualRand = -actualRand;
             
         }
-        int index = actualRand % ids.length;
+        int index = actualRand % ids.size();
         
-        return ids[index];
+        return ids.get(index);
     }
 
     @Override
@@ -70,6 +90,7 @@ public class SimpleQuestionManager implements QuestionProvider{
             return null;
         }
        
+        
         Random rand = new Random();
         int actualRand = rand.nextInt();
         if (actualRand < 0) 
@@ -81,4 +102,25 @@ public class SimpleQuestionManager implements QuestionProvider{
         return new Question(category, question, "alfa");
     }
     
+    public void setupFromJSON(String jsonName) throws Exception
+    {
+        questionMap = new HashMap<>();
+        byte[] jsonStringBytes = Files.readAllBytes(Paths.get(jsonName));
+        String jsonString = new String(jsonStringBytes,Charset.defaultCharset());
+        JSONArray array = new JSONArray(jsonString);
+        
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject object = (JSONObject)array.getJSONObject(i);
+            int categoryID = object.getInt("categoryID");
+            JSONArray questionsList = object.getJSONArray("questionsList");
+            List<String> list = new ArrayList<>();
+            for(int j=0; j<questionsList.length(); j++)
+            {
+                String aString = questionsList.getString(j);
+                list.add(aString);
+            }
+            
+            questionMap.put(categoryID, list);
+        }
+    }
 }

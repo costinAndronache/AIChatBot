@@ -5,11 +5,14 @@
  */
 package models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Costi
  */
-public class Question {
+public class Question implements Serializable
+{
     
     private String _questionString;
     private int _category;

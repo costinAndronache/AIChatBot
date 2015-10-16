@@ -1,0 +1,10 @@
+2
+Gigel
+manager
+12
+0
+Ionel
+caretaker
+10
+1
+1

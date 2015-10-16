@@ -5,14 +5,19 @@
         <group>
             <file>file:/E:/Git/AIChatBot/LittleChatot/src/models/GlobalQuestionGroupIDs.java</file>
             <file>file:/E:/Git/AIChatBot/LittleChatot/src/askingChatbot/managers/simpleManagers/SimplePersonManager.java</file>
+            <file>file:/E:/Git/AIChatBot/LittleChatot/src/models/Person.java</file>
             <file>file:/E:/Git/AIChatBot/LittleChatot/src/dataBase/DataBaseManager.java</file>
             <file>file:/E:/Git/AIChatBot/LittleChatot/src/askingChatbot/interfaces/PersonProvider.java</file>
             <file>file:/E:/Git/AIChatBot/LittleChatot/src/askingChatbot/interfaces/QuestionProposer.java</file>
             <file>file:/E:/Git/AIChatBot/LittleChatot/src/askingChatbot/managers/simpleManagers/SimpleQuestionProposer.java</file>
+            <file>file:/E:/Git/AIChatBot/LittleChatot/src/askingChatbot/interfaces/AnswerQuestionKnowledgeBase.java</file>
             <file>file:/E:/Git/AIChatBot/LittleChatot/src/askingChatbot/managers/ChatManager.java</file>
             <file>file:/E:/Git/AIChatBot/LittleChatot/src/askingChatbot/managers/simpleManagers/SimpleQuestionManager.java</file>
+            <file>file:/E:/Git/AIChatBot/LittleChatot/src/models/Question.java</file>
             <file>file:/E:/Git/AIChatBot/LittleChatot/src/askingChatbot/interfaces/QuestionProvider.java</file>
             <file>file:/E:/Git/AIChatBot/LittleChatot/src/askingChatbot/managers/PersonManager.java</file>
+            <file>file:/E:/Git/AIChatBot/LittleChatot/src/askingChatbot/managers/simpleManagers/SimpleAnswerKB.java</file>
+            <file>file:/E:/Git/AIChatBot/LittleChatot/Questions.json</file>
             <file>file:/E:/Git/AIChatBot/LittleChatot/src/askingChatbot/managers/QuestionManager.java</file>
             <file>file:/E:/Git/AIChatBot/LittleChatot/src/askingChatbot/main/Main.java</file>
             <file>file:/E:/Git/AIChatBot/LittleChatot/src/dataBase/DataBase.java</file>

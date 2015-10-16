@@ -1,0 +1,23 @@
+[
+    {
+        "categoryID" : 1,
+        "questionsList" : 
+                ["Whats your name?", "Can I know your name?", "Your name pls"]
+    },
+    {
+        "categoryID" : 2,
+        "questionsList" :
+                ["Whats your age?", "Your age please?", "Age age pls"]
+    },
+    {
+        "categoryID" : 3,
+        "questionsList" :
+                ["Whats your job?", "Your job:", "Please, job?:"]
+    },
+	{
+        "categoryID" : 4,
+        "questionsList" :
+                ["Who is your favourite character?", "Can you tell me who is the most awesome character?", 
+				"I'd like to know who is your favourite character, can I?"]
+    }
+]

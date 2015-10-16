@@ -6,12 +6,17 @@
 package askingChatbot.managers.simpleManagers;
 import askingChatbot.interfaces.*;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
+
+import org.json.*;
+
 /**
  *
  * @author Costi
  */
-public class SimpleAnswerKB implements AnswerQuestionKnowledgeBase {
+public class SimpleAnswerKB implements AnswerQuestionKnowledgeBase, Serializable {
     
     private List<String> questionList, answersList;
     
@@ -39,13 +44,15 @@ public class SimpleAnswerKB implements AnswerQuestionKnowledgeBase {
     public  void writeToBuffer(BufferedWriter writer) throws Exception
     {
         int numOfItems = this.questionList.size();
-        writer.write("" + numOfItems + "\n");
+        writer.write("" + numOfItems);
+        writer.newLine();
         
         for(int i=0; i<numOfItems; i++)
         {
-            writer.write(this.questionList.get(i) + ""
-                    + "\n");
-            writer.write(this.answersList.get(i) + "\n");
+            writer.write(this.questionList.get(i));
+            writer.newLine();
+            writer.write(this.answersList.get(i));
+            writer.newLine();
         }
     }
     
@@ -56,7 +63,7 @@ public class SimpleAnswerKB implements AnswerQuestionKnowledgeBase {
         {
             String myQ = this.questionList.get(i);
             int distance = this.LevenshteinDistance(myQ.toLowerCase(), question.toLowerCase());
-            if (distance <= 2) 
+            if (distance <= 4) 
             {
                 return this.answersList.get(i);
             }
@@ -112,4 +119,53 @@ public class SimpleAnswerKB implements AnswerQuestionKnowledgeBase {
     // the distance is the cost for transforming all letters in both strings        
     return cost[len0 - 1];                                                          
 }
+    
+    
+    public void setupFromJSON(String jsonName) throws Exception
+    {
+        
+        this.questionList = new ArrayList<>();
+        this.answersList = new ArrayList<>();
+        byte[] bytes = Files.readAllBytes(Paths.get(jsonName));
+        String jsonString = new String(bytes);
+        JSONArray array = new JSONArray(jsonString);
+        
+        for(int i=0; i<array.length(); i++)
+        {
+            JSONObject obj = array.getJSONObject(i);
+            String question = obj.getString("question");
+            String answer = obj.getString("answer");
+            
+            if(question != null && answer != null)
+            {
+                this.questionList.add(question);
+                this.answersList.add(answer);
+            }
+        }
+        
+    }
+    
+    public void writeToJSON(String jsonPath) throws Exception
+    {
+        StringWriter writer = new StringWriter();
+        JSONArray array = new JSONArray();
+        
+        for(int i=0; i<this.questionList.size(); i++)
+        {
+            String question = this.questionList.get(i);
+            String answer = this.answersList.get(i);
+            
+            JSONObject obj = new JSONObject();
+            obj.put("question", question);
+            obj.put("answer", answer);
+            
+            array.put(obj);
+        }
+        
+        array.write(writer);
+        
+        FileWriter fw = new FileWriter(new File(jsonPath));
+        fw.write(writer.toString());
+        fw.flush();
+    }
 }
